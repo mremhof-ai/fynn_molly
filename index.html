@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fynn &amp; Molly</title>
+<meta name="description" content="Fynn & Molly – eine kleine Musikvideoserie über einen Australian Shepherd mit Geige und eine Golden Retrieverin mit keltischer Harfe.">
+<meta property="og:title" content="Fynn & Molly">
+<meta property="og:description" content="Fiddle meets harp. Eine kleine Musikvideoserie.">
+<meta property="og:image" content="thumbs/hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0a09;
+    --bg-2: #171110;
+    --curtain: #6e1218;
+    --gold: #d9a74a;
+    --gold-soft: rgba(217, 167, 74, .18);
+    --text: #f3ece2;
+    --muted: #a99c8c;
+    --line: rgba(243, 236, 226, .1);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 "Manrope", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    min-height: 78vh;
+    display: grid;
+    place-items: end start;
+    padding: 0 max(16px, 6vw) 9vh;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: url("thumbs/hero.jpg") center 35% / cover no-repeat;
+    filter: saturate(1.05);
+    transform: scale(1.04);
+    animation: drift 24s ease-in-out infinite alternate;
+    z-index: -2;
+  }
+  .hero::after {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 30%, transparent 0 30%, rgba(13,10,9,.55) 70%),
+      linear-gradient(to top, var(--bg) 4%, rgba(13,10,9,.35) 55%, rgba(13,10,9,.6));
+    z-index: -1;
+  }
+  @keyframes drift { to { transform: scale(1.1) translateY(-1.5%); } }
+  .eyebrow {
+    font-size: .78rem;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 1rem;
+  }
+  h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(3.2rem, 11vw, 8.5rem);
+    line-height: .92;
+    letter-spacing: -.02em;
+    margin: 0;
+    text-shadow: 0 0 60px rgba(217,167,74,.35);
+  }
+  h1 .amp { color: var(--gold); font-style: italic; font-weight: 400; }
+  .tagline {
+    font-family: "Fraunces", Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+    color: var(--gold);
+    margin: 1.2rem 0 0;
+  }
+  .intro {
+    max-width: 34rem;
+    color: var(--muted);
+    margin: .8rem 0 0;
+  }
+
+  /* Episodes */
+  main {
+    padding: 4rem max(16px, 6vw) 5rem;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 1rem; margin-bottom: 2rem;
+  }
+  h2 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    margin: 0;
+  }
+  .count { color: var(--muted); font-size: .9rem; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    gap: 2rem;
+  }
+  .card {
+    all: unset;
+    display: block;
+    cursor: pointer;
+    border-radius: var(--radius);
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    transition: transform .35s cubic-bezier(.2,.7,.2,1), border-color .35s, box-shadow .35s;
+  }
+  .card:hover, .card:focus-visible {
+    transform: translateY(-6px);
+    border-color: rgba(217,167,74,.5);
+    box-shadow: 0 24px 60px -24px rgba(217,167,74,.35);
+  }
+  .card:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .thumb { position: relative; aspect-ratio: 16 / 9; overflow: hidden; }
+  .thumb img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform .8s cubic-bezier(.2,.7,.2,1), filter .5s;
+    filter: brightness(.88);
+  }
+  .card:hover .thumb img { transform: scale(1.05); filter: brightness(1); }
+  .play {
+    position: absolute; inset: 0; margin: auto;
+    width: 64px; height: 64px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: rgba(13,10,9,.55);
+    border: 1px solid rgba(243,236,226,.35);
+    backdrop-filter: blur(6px);
+    transition: transform .35s, background .35s;
+  }
+  .play svg { width: 22px; height: 22px; margin-left: 4px; fill: var(--text); }
+  .card:hover .play { transform: scale(1.1); background: var(--gold); }
+  .card:hover .play svg { fill: var(--bg); }
+  .duration {
+    position: absolute; right: 12px; bottom: 12px;
+    font-size: .75rem; font-weight: 600; letter-spacing: .04em;
+    padding: .2rem .55rem; border-radius: 999px;
+    background: rgba(13,10,9,.7);
+  }
+  .meta { padding: 1.3rem 1.4rem 1.5rem; }
+  .ep { font-size: .72rem; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); }
+  .card h3 {
+    font-family: "Fraunces", Georgia, serif; font-weight: 600;
+    font-size: 1.45rem; line-height: 1.2; margin: .35rem 0 .5rem;
+  }
+  .card p { margin: 0; color: var(--muted); font-size: .95rem; }
+
+  .card.soon { cursor: default; }
+  .card.soon:hover { transform: none; box-shadow: none; border-color: var(--line); }
+  .soon .thumb {
+    display: grid; place-items: center;
+    background:
+      repeating-linear-gradient(90deg, rgba(0,0,0,.25) 0 14px, transparent 14px 34px),
+      linear-gradient(160deg, #8a1820, var(--curtain) 45%, #3a090c);
+  }
+  .soon .date {
+    font-family: "Fraunces", Georgia, serif; font-style: italic;
+    font-size: 1.5rem; color: var(--gold);
+    padding: .5rem 1.2rem; border: 1px solid rgba(217,167,74,.5); border-radius: 999px;
+    background: rgba(13,10,9,.45);
+  }
+
+  footer {
+    text-align: center; color: var(--muted); font-size: .85rem;
+    padding: 2rem 16px 3rem; border-top: 1px solid var(--line);
+  }
+
+  /* Lightbox */
+  dialog {
+    border: 0; padding: 0; margin: auto;
+    width: min(1100px, 94vw);
+    background: transparent; color: var(--text);
+    overflow: visible;
+  }
+  dialog::backdrop { background: rgba(5,4,4,.88); backdrop-filter: blur(8px); }
+  dialog[open] { animation: pop .35s cubic-bezier(.2,.7,.2,1); }
+  @keyframes pop { from { opacity: 0; transform: scale(.96); } }
+  .player {
+    border-radius: var(--radius); overflow: hidden;
+    box-shadow: 0 40px 120px -20px rgba(217,167,74,.25);
+    background: #000;
+  }
+  .player video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+  .lb-caption { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem .25rem 0; }
+  .lb-caption h3 { font-family: "Fraunces", Georgia, serif; font-weight: 600; margin: 0; font-size: 1.3rem; }
+  .lb-caption span { color: var(--muted); font-size: .9rem; white-space: nowrap; }
+  .close {
+    position: absolute; top: -52px; right: 0;
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 1px solid rgba(243,236,226,.3); background: transparent;
+    color: var(--text); font-size: 1.4rem; line-height: 1; cursor: pointer;
+  }
+  .close:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div>
+    <p class="eyebrow">Eine kleine Musikvideoserie</p>
+    <h1>Fynn <span class="amp">&amp;</span><br>Molly</h1>
+    <p class="tagline">Fiddle meets harp.</p>
+    <p class="intro">Ein Australian Shepherd mit Geige, eine Golden Retrieverin mit keltischer Harfe und eine Schulaula, in der alles beginnt.</p>
+  </div>
+</header>
+
+<main>
+  <div class="section-head">
+    <h2>Die Folgen</h2>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>Fynn &amp; Molly · Mit KI erstellt · Nur für Freunde und Familie</footer>
+
+<dialog id="lightbox" aria-label="Video">
+  <button class="close" id="close" aria-label="Schließen">×</button>
+  <div class="player"><video id="video" controls playsinline preload="none"></video></div>
+  <div class="lb-caption"><h3 id="lb-title"></h3><span id="lb-ep"></span></div>
+</dialog>
+
+<script>
+  // Neue Folgen einfach hier ergänzen. Ohne "video" erscheint die Karte als "Bald".
+  const episodes = [
+    {
+      ep: 1,
+      title: "Das erste Stück",
+      text: "Molly spielt allein in der leeren Aula, bis Fynn mit seinem Geigenkoffer hereinschaut. Ein Ton, ein Blick, ein irischer Reel – die Band ist geboren.",
+      video: "videos/folge-1.mp4",
+      thumb: "thumbs/folge-1.jpg",
+      duration: "0:36"
+    },
+    {
+      ep: 2,
+      title: "Das erste Publikum",
+      text: "Ein Novembertag voller Regen. Bei der Probe ist Fynn viel zu schnell, bis Molly ihm den Takt vorgibt. Und plötzlich hört jemand zu.",
+      video: "videos/folge-2.mp4",
+      thumb: "thumbs/folge-2.jpg",
+      duration: "0:45"
+    },
+    {
+      ep: 3,
+      title: "Das erste Konzert",
+      text: "Die Stadthalle ist ausverkauft. Licht aus, Vorhang auf.",
+      date: "14. Dezember"
+    }
+  ];
+
+  const grid = document.getElementById("grid");
+  const playIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg>';
+
+  episodes.forEach(e => {
+    const card = document.createElement(e.video ? "button" : "div");
+    card.className = "card" + (e.video ? "" : " soon");
+    card.innerHTML = `
+      <div class="thumb">
+        ${e.video
+          ? `<img src="${e.thumb}" alt="Standbild aus Folge ${e.ep}" loading="lazy">
+             <span class="play">${playIcon}</span>
+             <span class="duration">${e.duration}</span>`
+          : `<span class="date">${e.date}</span>`}
+      </div>
+      <div class="meta">
+        <div class="ep">Folge ${e.ep}${e.video ? "" : " · Bald"}</div>
+        <h3>${e.title}</h3>
+        <p>${e.text}</p>
+      </div>`;
+    if (e.video) {
+      card.setAttribute("aria-label", `Folge ${e.ep} abspielen: ${e.title}`);
+      card.addEventListener("click", () => openVideo(e));
+    }
+    grid.appendChild(card);
+  });
+
+  const released = episodes.filter(e => e.video).length;
+  document.getElementById("count").textContent = `${released} von ${episodes.length} Folgen`;
+
+  const lb = document.getElementById("lightbox");
+  const video = document.getElementById("video");
+
+  function openVideo(e) {
+    video.src = e.video;
+    video.poster = e.thumb;
+    document.getElementById("lb-title").textContent = e.title;
+    document.getElementById("lb-ep").textContent = `Folge ${e.ep} · ${e.duration}`;
+    lb.showModal();
+    video.play().catch(() => {});
+  }
+  function closeVideo() { lb.close(); }
+
+  document.getElementById("close").addEventListener("click", closeVideo);
+  lb.addEventListener("click", ev => { if (ev.target === lb) closeVideo(); });
+  lb.addEventListener("close", () => { video.pause(); video.removeAttribute("src"); video.load(); });
+</script>
+</body>
+</html>
